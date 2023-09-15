@@ -14,21 +14,21 @@ async function getData() {
         const data = await response.json();
         if (response.status === 200) {
            
-            const dataElement = document.getElementById("api-data");
+            const dataElement = document.getElementById("api-data")
 
             data.artists.forEach(artist => {
-                const artistlist= document.createElement("h2");
-                artistlist.textContent = `${artist.name}`;
-                dataElement.appendChild(artistlist);
+                const artistlist= document.createElement("h2")
+                artistlist.textContent = `${artist.name} - [${artist.genres}]`
+                dataElement.appendChild(artistlist)
             });
         
         } else {
             
             const dataElement = document.getElementById("api-data");
-            dataElement.innerHTML = `Server Error: ${data.error.message}`;
+            dataElement.innerHTML = `Server Error: ${data.error.message}`
         }
     } catch (error) {
-        console.log('ERROR: ', error);
+        console.log('ERROR: ', error)
     }  
 
 }
