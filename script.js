@@ -1,5 +1,5 @@
-const token = "BQA30bGsW9ulbqXmAGX5u6SaLlv97Tx3zLmOkd-LTeiLqzG3pTUYSD4rQos2l_dAEP02qJ8peEsTomC5NcRmPYW8CK3g-UreBISYYeRThSdOvZW2TfA6RGzX_VmjA3kKgLDHcjuA0sTWoSlHulA_BMdbw5F3CBjspxvJCAGsZ9db4yS9R-AOMk7xyFS92zADXVOaOOZCwCBWqIru3ERPh0Eas9FwzFruKOymIjJvUO-2bLFdqQudxL5XN0UKydjgAUbE0HztnnsueHhQYqk5cf0Z";
-const url = "https://api.spotify.com/v1/artists?ids=2CIMQHirSU0MQqyYHq0eOx%2C57dN52uHvrHOxijzpIgu3E%2C1vCWHaC5f2uS3yhpwWbIA6";
+const token = "BQBzOmPtl5tP-0XFj81hI7XhLqsqFgapLHM9el1d5MTyOmG_SC4YBzv6AkQEMV-sCMxfe8pU16IUvIDZp3cOFk2gtPCqsj2iJJUhxRwr2LEYGif-ficVZUGBWuE2riTh3ecmug65NG11s3MbHJL7wm8Oi8u29FbuvGSSOVlJeWeL_YsEX-EsD2JTJ_3qTeCVZHCqARu-Ck6Y63iYhBtYaXpn5K5kuA2vuQrWHYufDbrgrnWF8gBO3Q2cbby4EDycbfL6XE_vghkPE2wZqXEupNq0";
+const url = "https://api.spotify.com/v1/artists?ids=1qFp8zDvsXyCsC5dqz8X4S,4zCH9qm4R2DADamUHMCa6O,0aUQnP4HhUQXcurZl9GJIA,2uocTdMBXjTsS7QmAj7src,0oOet2f43PA68X5RxKobEy,2IUtwMti1OiT3lkW6RubgH,7qjJw7ZM2ekDSahLXPjIlN,1QvyquqkuuwUzdszyoKIy4,67ra8R8hw9NkDyBaJBS2j6,0nMjhemqRwrboQGcs92fh2";
 
 const request = new Request(
     url, {
@@ -15,10 +15,13 @@ async function getData() {
         if (response.status === 200) {
            
             const dataElement = document.getElementById("api-data");
+
+            data.artists.forEach(artist => {
+                const artistlist= document.createElement("h2");
+                artistlist.textContent = `${artist.name}`;
+                dataElement.appendChild(artistlist);
+            });
         
-            const formattedData = JSON.stringify(data, null, 2);
-            const formattedHTML = formattedData.replace(/\n/g, "<br>").replace(/  /g, "&nbsp;&nbsp;");
-            dataElement.innerHTML = formattedHTML;
         } else {
             
             const dataElement = document.getElementById("api-data");
