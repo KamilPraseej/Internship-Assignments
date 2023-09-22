@@ -1,0 +1,54 @@
+body{
+    background-image: url('https://www.teahub.io/photos/full/87-872546_clean-backgrounds.png');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+}
+.weather-widget {
+    text-align: center;
+    margin: 100px auto;
+    max-width: 400px;
+    padding: 20px;
+    border: 2px solid #ed2020;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    
+    background-image: url('https://png.pngtree.com/background/20210714/original/pngtree-blue-sky-weather-background-picture-image_1229451.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center;
+}
+
+#locationInput {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.8); 
+}
+
+#getWeatherBtn {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 40%;
+    max-width: 200px;
+    margin: 0 auto;
+    background-color: #b9d7f0;
+}
+
+
+#weatherInfo {
+    text-align: left;
+    color: rgb(17, 12, 12);
+    font-size: 20px;
+    font-weight: bold; 
+}
+
+@media (max-width: 768px) {
+    .weather-widget {
+        max-width: 90%;
+    }
+    #getWeatherBtn {
+        max-width: none; 
+    }
+}
