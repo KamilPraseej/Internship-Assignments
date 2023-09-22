@@ -1,4 +1,4 @@
-const apiKey = 'b1cf7d2d2697b78e1e291c65c00e0534';
+const apiKey = 'b1cf7d2d2697b78e1e291c65c00e05';
 const baseUrl = "http://api.openweathermap.org/data/2.5/weather";
 
 document.getElementById('getWeatherBtn').addEventListener('click', () => {
@@ -19,8 +19,12 @@ function fetchWeatherData(location) {
         .then((data) => {
             if (data.cod === 200) {
                 displayWeatherData(data);
-            } else {
-                document.getElementById('weatherInfo').innerText = 'Invalid City or Weather Information not available';
+            } 
+            else if(data.cod === 401) {
+                document.getElementById('weatherInfo').innerText = 'Server Error';
+            }
+            else {
+                document.getElementById('weatherInfo').innerText = 'Invalid Location or Weather Information not available';
             }
         })
         .catch((error) => {
