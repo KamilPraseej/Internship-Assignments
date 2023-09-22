@@ -1,36 +1,79 @@
-const token = "BQBzOmPtl5tP-0XFj81hI7XhLqsqFgapLHM9el1d5MTyOmG_SC4YBzv6AkQEMV-sCMxfe8pU16IUvIDZp3cOFk2gtPCqsj2iJJUhxRwr2LEYGif-ficVZUGBWuE2riTh3ecmug65NG11s3MbHJL7wm8Oi8u29FbuvGSSOVlJeWeL_YsEX-EsD2JTJ_3qTeCVZHCqARu-Ck6Y63iYhBtYaXpn5K5kuA2vuQrWHYufDbrgrnWF8gBO3Q2cbby4EDycbfL6XE_vghkPE2wZqXEupNq0";
-const url = "https://api.spotify.com/v1/artists?ids=1qFp8zDvsXyCsC5dqz8X4S,4zCH9qm4R2DADamUHMCa6O,0aUQnP4HhUQXcurZl9GJIA,2uocTdMBXjTsS7QmAj7src,0oOet2f43PA68X5RxKobEy,2IUtwMti1OiT3lkW6RubgH,7qjJw7ZM2ekDSahLXPjIlN,1QvyquqkuuwUzdszyoKIy4,67ra8R8hw9NkDyBaJBS2j6,0nMjhemqRwrboQGcs92fh2";
+const clientId = 'd73af951c5514d24a2224ec1be168f1e'
 
-const request = new Request(
-    url, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-    });
+const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token`
 
-async function getData() {
+const baseurl = "https://api.spotify.com/v1/artists";
+const ids = "1qFp8zDvsXyCsC5dqz8X4S,"+
+            "4zCH9qm4R2DADamUHMCa6O,"+
+            "0aUQnP4HhUQXcurZl9GJIA,"+
+            "2uocTdMBXjTsS7QmAj7src,"+
+            "0oOet2f43PA68X5RxKobEy,"+
+            "2IUtwMti1OiT3lkW6RubgH,"+
+            "7qjJw7ZM2ekDSahLXPjIlN,"+
+            "1QvyquqkuuwUzdszyoKIy4,"+
+            "2wPsNCwhEGb0KvChZ5DD52,"+
+            "0nMjhemqRwrboQGcs92fh2";
+
+const url = `${baseurl}?ids=${ids}`;
+const includeGroups = "album,single";
+
+async function fetchData(token) {
     try {
-        const response = await fetch(request);
-        const data = await response.json();
-        if (response.status === 200) {
-           
-            const dataElement = document.getElementById("api-data")
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        });
 
-            data.artists.forEach(artist => {
-                const artistlist= document.createElement("h2")
-                artistlist.textContent = `${artist.name} - [${artist.genres}]`
-                dataElement.appendChild(artistlist)
-            });
-        
-        } else {
+        const data = await response.json();
+
+        if (response.status == 200) {
+            const artistList = document.getElementById("api-data");
+
+            data.artists.forEach(async (artist) => {
+                const artistCard = document.createElement("div");
+                artistCard.classList.add("artist-card");
+
+                const artistImage = document.createElement("img");
+                artistImage.src = artist.images[0].url;
+
+                const artistName = document.createElement("div");
+                artistName.classList.add("artist-name");
+                artistName.textContent = artist.name;
+
+                const artistGenres = document.createElement("div");
+                artistGenres.classList.add("artist-genres");
+                artistGenres.textContent = artist.genres.join(",");
+
+                artistCard.appendChild(artistImage);
+                artistCard.appendChild(artistName);
+                artistCard.appendChild(artistGenres);
+                artistList.appendChild(artistCard);
             
+            });
+        } else {
             const dataElement = document.getElementById("api-data");
-            dataElement.innerHTML = `Server Error: ${data.error.message}`
+            dataElement.innerHTML = `Server Error: ${data.error.message}`;
         }
     } catch (error) {
-        console.log('ERROR: ', error)
-    }  
-
+        console.log('ERROR: ', error);
+    }
 }
 
+    function getData(){
+    const token = localStorage.getItem('spotifyToken');
+    if (!token) {
+        window.location.href = authorizeUrl;
+    } else {
+        fetchData(token);
+        
+    }
+    }
+
+const urlParams = new URLSearchParams(window.location.hash.substr(1));
+const accessToken = urlParams.get('access_token');
+if (accessToken) {
+    localStorage.setItem('spotifyToken', accessToken);
+    window.location.hash = ''; 
+}
 getData()
